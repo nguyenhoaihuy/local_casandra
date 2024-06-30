@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cassandra-cluster
+spec:
+  type: NodePort
+  selector:
+    app: cassandra  # Replace with labels matching your Cassandra StatefulSet pods
+  ports:
+    - protocol: TCP
+      port: 9042  # Port used by Cassandra nodes
+      targetPort: 9042  # Port exposed by Cassandra pods
