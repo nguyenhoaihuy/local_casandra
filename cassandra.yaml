@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: cassandra-cluster
+spec:
+  serviceName: cassandra
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cassandra
+  template:
+    metadata:
+      labels:
+        app: cassandra
+    spec:
+      containers:
+      - name: cassandra
+        image: cassandra:latest
+        ports:
+        - containerPort: 9042
+        resources:
+          requests:
+            memory: "512Mi"  # Adjust memory request
+            cpu: "0.5"       # Adjust CPU request
+          limits:
+            memory: "1Gi"    # Adjust memory limit
+            cpu: "1"         # Adjust CPU limit
+        env:
+          - name: MAX_HEAP_SIZE
+            value: 256M     # Adjust JVM heap size accordingly
+          - name: HEAP_NEWSIZE
+            value: 50M
+        volumeMounts:
+          - name: cassandra-data
+            mountPath: /var/lib/cassandra/data
+  volumeClaimTemplates:
+  - metadata:
+      name: cassandra-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 5Gi   # Adjust storage request
