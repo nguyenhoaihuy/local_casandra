@@ -14,7 +14,7 @@ Just a local cluster to deploy canssandra on
 ```kubectl apply -f cassandra.yaml```
 
 # Expose external access using NodePort service
-```kubectl apply -f cassandra-service.yaml```
+```kubectl apply -f cassandra-service.yaml```.
 NodePort will load balance via kube-proxy (Round-robin)
 
 # Debug
